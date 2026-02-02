@@ -1,0 +1,48 @@
+# save this as app.py
+# run: streamlit run app.py
+
+import streamlit as st
+import numpy as np
+
+st.set_page_config(page_title="NASH Prediction App", page_icon="🩺", layout="centered")
+
+# Title
+st.title("🩺 Early Detection of NASH")
+st.markdown("Enter clinical values to predict **NASH stage**")
+
+# Input fields
+age = st.number_input("Age", min_value=1, max_value=100, value=35)
+bmi = st.number_input("BMI", min_value=10.0, max_value=50.0, value=25.0)
+ast = st.number_input("AST (Aspartate Aminotransferase)", min_value=0, max_value=500, value=30)
+alt = st.number_input("ALT (Alanine Aminotransferase)", min_value=0, max_value=500, value=25)
+bilirubin = st.number_input("Bilirubin", min_value=0.0, max_value=5.0, value=1.0)
+
+# Predict button
+if st.button("Predict NASH Stage"):
+    # Dummy rule-based logic
+    risk_score = 0
+    
+    if bmi > 30:  # obesity risk
+        risk_score += 1
+    if ast > 40 or alt > 45:  # liver enzyme elevation
+        risk_score += 1
+    if bilirubin > 1.2:
+        risk_score += 1
+
+    # Map score to stages
+    if risk_score == 0:
+        stage = "Healthy"
+    elif risk_score == 1:
+        stage = "Early NASH"
+    elif risk_score == 2:
+        stage = "Fibrosis Risk"
+    else:
+        stage = "Advanced Stage (Cirrhosis Risk)"
+    
+    st.success(f"✅ Prediction: **{stage}**")
+   
+
+# Footer
+st.markdown("---")
+st.caption("Developed by Ashika & Ganesh")
+
